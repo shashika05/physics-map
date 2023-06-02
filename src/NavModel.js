@@ -10,7 +10,7 @@ const NavModel = ({ navModel, setNavModel }) => {
 
   return (
     <Modal
-      animationType="fade"
+      animationType="slide"
       transparent={true}
       visible={navModel}
       onRequestClose={() => setNavModel(false)}
@@ -35,7 +35,7 @@ const NavModel = ({ navModel, setNavModel }) => {
             }}
           >
             <Text style={styles.title}>From</Text>
-            <Text>Main Entrance</Text>
+            <Text style={{ marginTop: 28 }}>Main Entrance</Text>
           </View>
           <View
             style={{
@@ -45,13 +45,15 @@ const NavModel = ({ navModel, setNavModel }) => {
             }}
           >
             <Text style={styles.title}>To</Text>
-            <View style={{}}>
+            <View style={{ marginTop: 16, zIndex: 10 }}>
               <SelectList
                 setSelected={(val) => setSelected(val)}
                 data={data}
                 save="location"
                 search={false}
                 placeholder="Select Location"
+                dropdownStyles={{ backgroundColor: "#e2e2e2" }}
+                onSelect={() => console.log(selected)}
               />
             </View>
           </View>
@@ -80,11 +82,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#e3e3e3",
     alignItems: "center",
     // justifyContent: "center",
-    height: 20,
     marginLeft: 10,
     marginRight: 10,
-    marginTop: 40,
-    marginBottom: 168,
+    marginTop: 160,
+    marginBottom: 280,
+    height: 200,
     borderRadius: 16,
     padding: 20,
   },

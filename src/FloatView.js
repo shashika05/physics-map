@@ -11,7 +11,25 @@ const FloatView = ({ modalVisible, setModalVisible }) => {
       onRequestClose={() => setModalVisible(false)}
     >
       <View style={styles.container}>
-        <Text style={styles.title}>Direction Map</Text>
+        <Text style={styles.title}>Guidelines</Text>
+        <View style={{ width: "100%", height: 2, backgroundColor: "#000" }} />
+        <View style={{ width: "100%", marginTop: 4 }}>
+          <Text style={styles.txt1}>1. Main Entrance</Text>
+          <Text style={styles.txt1}>2. Stairs to Corridor A</Text>
+          <Text style={styles.txt1}>3. Upstairs to PLT-I</Text>
+          <Text style={styles.txt1}>4. PLT-I</Text>
+          <Text style={styles.txt1}>5. PLT-II</Text>
+          <Text style={styles.txt1}>6. Main Building - Floor I</Text>
+          <Text style={styles.txt1}>7. Main Building - Floor II</Text>
+
+          <Text style={styles.txt2}>Corridors:</Text>
+          <Text style={styles.txt1}>A. Corridor to PLT-I </Text>
+          <Text style={styles.txt1}>B. Corridor from PLT-I to PLT-II</Text>
+          <Text style={styles.txt1}>C. Corridor of PLT-II</Text>
+          <Text style={styles.txt1}>
+            D. Corridor from PLT-II to Main Building
+          </Text>
+        </View>
         <TouchableOpacity
           style={styles.closeBtn}
           onPress={() => setModalVisible(false)}
@@ -41,6 +59,7 @@ const styles = StyleSheet.create({
     marginTop: 100,
     marginBottom: 100,
     borderRadius: 16,
+    padding: 20,
   },
   closeBtn: {
     position: "absolute",
@@ -54,6 +73,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
+    fontWeight: "bold",
+    marginTop: 10,
+  },
+  txt1: {
+    fontSize: 18,
+  },
+  txt2: {
+    fontSize: 20,
     fontWeight: "bold",
     marginTop: 10,
   },

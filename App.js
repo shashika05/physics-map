@@ -7,34 +7,54 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+import {
+  MaterialIcons,
+  Feather,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 
 // import {SvgUri} from 'react-native-svg'
 
 import Loader from "./src/Loader";
 // import data from "./data";
 import FloatView from "./src/FloatView";
+import NavModel from "./src/NavModel";
+import ImageModal from "./src/ImageModal";
 // import bg from "./src/map/1x.png";
 export default function App() {
   // const [data, setData] = useState(data[0]);
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [navModel, setNavModel] = useState(false);
+  const [zoom, setZoom] = useState(3);
+  const [imageModalVisible, setImageModalVisible] = useState(true);
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => setLoading(false), 3000);
-  // }, []);
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 3000);
+  }, []);
   return loading ? (
     <Loader />
   ) : (
     <ImageBackground
-      source={{ uri: "./src/map/1x.png" }}
+      source={require("./src/map/" + zoom + "x.png")}
       resizeMode="cover"
       style={styles.container}
-      onLoadStart={() => setLoading(true)}
       onLoadEnd={() => setLoading(false)}
+      resizeMethod="auto"
+      rend
     >
       <TouchableOpacity
-        style={styles.floatBtn}
+        style={styles.floatBtn1}
+        onPress={() => setNavModel(true)}
+      >
+        <MaterialCommunityIcons
+          name="navigation-variant-outline"
+          size={40}
+          color="black"
+        />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.floatBtn2}
         onPress={() => setModalVisible(true)}
       >
         <MaterialIcons name="menu-book" size={40} color="black" />
@@ -43,6 +63,25 @@ export default function App() {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
       />
+      <NavModel navModel={navModel} setNavModel={setNavModel} />
+      <ImageModal
+        imageModalVisible={imageModalVisible}
+        setImageModalVisible={setImageModalVisible}
+      />
+      <View style={{ position: "absolute", left: 12, bottom: 12 }}>
+        <TouchableOpacity
+          onPress={() => setZoom(zoom++)}
+          style={styles.zoomBtns}
+        >
+          <Feather name="zoom-in" size={30} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => setZoom(zoom--)}
+          style={styles.zoomBtns}
+        >
+          <Feather name="zoom-out" size={30} color="black" />
+        </TouchableOpacity>
+      </View>
       <StatusBar style="auto" />
     </ImageBackground>
   );
@@ -55,7 +94,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  floatBtn: {
+  floatBtn1: {
+    position: "absolute",
+    bottom: 100,
+    right: 20,
+    width: 64,
+    height: 64,
+    backgroundColor: "#EF5350",
+    borderRadius: 64 / 2,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  floatBtn2: {
     position: "absolute",
     bottom: 20,
     right: 20,
@@ -65,5 +115,14 @@ const styles = StyleSheet.create({
     borderRadius: 64 / 2,
     justifyContent: "center",
     alignItems: "center",
+  },
+  zoomBtns: {
+    width: 48,
+    height: 48,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#b3b3b3",
+    borderRadius: 48 / 2,
+    marginBottom: 3,
   },
 });
