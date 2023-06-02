@@ -5,7 +5,7 @@ import { SelectList } from "react-native-dropdown-select-list";
 
 import data from "../data";
 
-const NavModel = ({ navModel, setNavModel }) => {
+const NavModel = ({ navModel, setNavModel, setImageModalVisible }) => {
   const [selected, setSelected] = useState("");
 
   return (
@@ -53,7 +53,7 @@ const NavModel = ({ navModel, setNavModel }) => {
                 search={false}
                 placeholder="Select Location"
                 dropdownStyles={{ backgroundColor: "#e2e2e2" }}
-                onSelect={() => console.log(selected)}
+                onSelect={() => setImageModalVisible(true)}
               />
             </View>
           </View>

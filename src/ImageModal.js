@@ -1,17 +1,24 @@
-import { StyleSheet, Modal, View, Text, Image, Dimensions } from "react-native";
-import React, { useState } from "react";
-// import { SwiperFlatList } from "react-native-swiper-flatlist";
-import data from "../data";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet, Modal, View, Image, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 
 const ImageModal = ({ imageModalVisible, setImageModalVisible }) => {
   let [step, setStep] = useState(1);
-  const stepHandle = () => {
+  useEffect(() => {
+    console.log(step);
+  }, [step]);
+  const stepHandlePositive = () => {
     if (step <= 8) {
       setStep(step++);
     } else {
       setStep(1);
+    }
+  };
+  const stepHandleNegative = () => {
+    if (step >= 1) {
+      setStep(step--);
+    } else {
+      setStep(8);
     }
   };
   return (
@@ -22,27 +29,61 @@ const ImageModal = ({ imageModalVisible, setImageModalVisible }) => {
       onRequestClose={() => setImageModalVisible(false)}
     >
       <View style={styles.container}>
-        <Image
-          style={styles.img}
-          source={require(`./map/1-2/${step + 1}.jpg`)}
-        />
+        <Image style={styles.img} source={require(`./map/1-2/${step}.jpg`)} />
         <TouchableOpacity
-          onPress={() => stepHandle()}
-          style={{ position: "absolute", right: 20 }}
+          style={{
+            position: "absolute",
+            right: 20,
+            top: 20,
+            width: 50,
+            height: 50,
+            backgroundColor: "white",
+            borderRadius: 10,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          onPress={() => setImageModalVisible(false)}
+        >
+          <AntDesign name="closesquareo" size={30} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={stepHandlePositive}
+          style={{
+            position: "absolute",
+            right: 20,
+            bottom: 10,
+            width: 50,
+            height: 50,
+            backgroundColor: "white",
+            borderRadius: 50,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
           <AntDesign name="caretright" size={24} color="black" />
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={stepHandleNegative}
+          style={{
+            position: "absolute",
+            left: 20,
+            bottom: 10,
+            width: 50,
+            height: 50,
+            backgroundColor: "white",
+            borderRadius: 50,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <AntDesign name="caretleft" size={24} color="black" />
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity style={{ position: "absolute", right: 10, top: 10 }}>
-        <AntDesign name="closesquareo" size={24} color="black" />
-      </TouchableOpacity>
     </Modal>
   );
 };
 
 export default ImageModal;
-
-const { width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
@@ -50,9 +91,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#e3e3e3",
     alignItems: "center",
     justifyContent: "center",
+    width: "100%",
   },
   img: {
-    width: width,
-    height: 400,
+    width: "100%",
+    height: "100%",
   },
 });

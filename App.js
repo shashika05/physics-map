@@ -2,7 +2,6 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
-  Text,
   View,
   TouchableOpacity,
   ImageBackground,
@@ -23,11 +22,11 @@ import ImageModal from "./src/ImageModal";
 // import bg from "./src/map/1x.png";
 export default function App() {
   // const [data, setData] = useState(data[0]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [navModel, setNavModel] = useState(false);
-  const [zoom, setZoom] = useState(3);
-  const [imageModalVisible, setImageModalVisible] = useState(true);
+  // const [zoom, setZoom] = useState(3);
+  const [imageModalVisible, setImageModalVisible] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 3000);
@@ -36,12 +35,11 @@ export default function App() {
     <Loader />
   ) : (
     <ImageBackground
-      source={require("./src/map/" + zoom + "x.png")}
+      source={require("./src/map/3x.png")}
       resizeMode="cover"
       style={styles.container}
       onLoadEnd={() => setLoading(false)}
-      resizeMethod="auto"
-      rend
+      resizeMethod="scale"
     >
       <TouchableOpacity
         style={styles.floatBtn1}
@@ -63,7 +61,12 @@ export default function App() {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
       />
-      <NavModel navModel={navModel} setNavModel={setNavModel} />
+      <NavModel
+        imageModalVisible={imageModalVisible}
+        setImageModalVisible={setImageModalVisible}
+        navModel={navModel}
+        setNavModel={setNavModel}
+      />
       <ImageModal
         imageModalVisible={imageModalVisible}
         setImageModalVisible={setImageModalVisible}
