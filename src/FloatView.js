@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Modal, TouchableOpacity } from "react-native";
 import React from "react";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Foundation } from "@expo/vector-icons";
 
 const FloatView = ({ modalVisible, setModalVisible }) => {
   return (
@@ -29,6 +29,13 @@ const FloatView = ({ modalVisible, setModalVisible }) => {
           <Text style={styles.txt1}>
             D. Corridor from PLT-II to Main Building
           </Text>
+          <Text style={styles.txt1}>
+            E. Corridors of Floor-2&3 in Main Building.
+          </Text>
+          <View style={{ marginTop: 12, flexDirection: "row" }}>
+            <Foundation name="male-female" size={24} color="black" />
+            <Text style={styles.txt1}> - Lavatory</Text>
+          </View>
         </View>
         <TouchableOpacity
           style={styles.closeBtn}

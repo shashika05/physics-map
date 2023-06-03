@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-// import loader from "./loader.json";
 
 import Lottie from "lottie-react-native";
 
 const Loader = () => {
   return (
     <View style={styles.container}>
+      <Text style={styles.txt1}>Welcome to RIIE - 2023</Text>
       <Lottie source={require("./loader.json")} autoPlay loop />
       <Text>Loading...</Text>
     </View>
@@ -21,5 +21,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  txt1: {
+    fontSize: 20,
+    fontWeight: "bold",
   },
 });

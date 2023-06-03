@@ -12,21 +12,34 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 
-// import {SvgUri} from 'react-native-svg'
-
 import Loader from "./src/Loader";
 // import data from "./data";
 import FloatView from "./src/FloatView";
 import NavModel from "./src/NavModel";
 import ImageModal from "./src/ImageModal";
-// import bg from "./src/map/1x.png";
+
 export default function App() {
-  // const [data, setData] = useState(data[0]);
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [navModel, setNavModel] = useState(false);
-  // const [zoom, setZoom] = useState(3);
+  let [zoom, setZoom] = useState(2);
   const [imageModalVisible, setImageModalVisible] = useState(false);
+  const [stepArray, setStepArray] = useState([1, 16]);
+
+  const zoonIn = () => {
+    if (zoom < 3) {
+      setZoom(zoom++);
+    } else {
+      setZoom(3);
+    }
+  };
+  const zoomOut = () => {
+    if (zoom > 1) {
+      setZoom(zoom--);
+    } else {
+      setZoom(1);
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 3000);
@@ -35,10 +48,9 @@ export default function App() {
     <Loader />
   ) : (
     <ImageBackground
-      source={require("./src/map/3x.png")}
+      source={require("./src/map/" + zoom + "x.png")}
       resizeMode="cover"
       style={styles.container}
-      onLoadEnd={() => setLoading(false)}
       resizeMethod="scale"
     >
       <TouchableOpacity
@@ -66,21 +78,28 @@ export default function App() {
         setImageModalVisible={setImageModalVisible}
         navModel={navModel}
         setNavModel={setNavModel}
+        setStepArray={setStepArray}
       />
       <ImageModal
         imageModalVisible={imageModalVisible}
         setImageModalVisible={setImageModalVisible}
+        setLoading={setLoading}
+        stepArray={stepArray}
       />
       <View style={{ position: "absolute", left: 12, bottom: 12 }}>
         <TouchableOpacity
-          onPress={() => setZoom(zoom++)}
+          onPressIn={zoonIn}
+          onPressOut={zoonIn}
           style={styles.zoomBtns}
+          disabled={zoom === 3}
         >
           <Feather name="zoom-in" size={30} color="black" />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setZoom(zoom--)}
+          onPressIn={zoomOut}
+          onPressOut={zoomOut}
           style={styles.zoomBtns}
+          disabled={zoom === 1}
         >
           <Feather name="zoom-out" size={30} color="black" />
         </TouchableOpacity>

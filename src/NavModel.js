@@ -1,12 +1,38 @@
-import { StyleSheet, Text, View, Modal, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Modal,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import React, { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SelectList } from "react-native-dropdown-select-list";
 
 import data from "../data";
 
-const NavModel = ({ navModel, setNavModel, setImageModalVisible }) => {
+const NavModel = ({
+  navModel,
+  setNavModel,
+  setImageModalVisible,
+  setStepArray,
+}) => {
   const [selected, setSelected] = useState("");
+
+  const toRoute = () => {
+    setNavModel(false);
+    if (selected == "PLT-1") {
+      setStepArray([1, 16]);
+    }
+    if (selected == "PLT-2") {
+      setStepArray([1, 23]);
+    }
+    if (selected == "Main Building") {
+      setStepArray([1, 28]);
+    }
+    setImageModalVisible(true);
+  };
 
   return (
     <Modal
@@ -30,7 +56,6 @@ const NavModel = ({ navModel, setNavModel, setImageModalVisible }) => {
           <View
             style={{
               flex: 0.5,
-              // backgroundColor: "#b2b2b2",
               alignItems: "center",
             }}
           >
@@ -39,7 +64,6 @@ const NavModel = ({ navModel, setNavModel, setImageModalVisible }) => {
           </View>
           <View
             style={{
-              // backgroundColor: "#a3a3a3",
               flex: 0.5,
               alignItems: "center",
             }}
@@ -53,7 +77,7 @@ const NavModel = ({ navModel, setNavModel, setImageModalVisible }) => {
                 search={false}
                 placeholder="Select Location"
                 dropdownStyles={{ backgroundColor: "#e2e2e2" }}
-                onSelect={() => setImageModalVisible(true)}
+                onSelect={toRoute}
               />
             </View>
           </View>
@@ -81,7 +105,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#e3e3e3",
     alignItems: "center",
-    // justifyContent: "center",
     marginLeft: 10,
     marginRight: 10,
     marginTop: 160,

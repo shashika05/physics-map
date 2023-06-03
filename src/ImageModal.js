@@ -1,14 +1,17 @@
-import { StyleSheet, Modal, View, Image, TouchableOpacity } from "react-native";
-import React, { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  Modal,
+  Image,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+} from "react-native";
+import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 
-const ImageModal = ({ imageModalVisible, setImageModalVisible }) => {
+const ImageModal = ({ imageModalVisible, setImageModalVisible, stepArray }) => {
   let [step, setStep] = useState(1);
-  useEffect(() => {
-    console.log(step);
-  }, [step]);
   const stepHandlePositive = () => {
-    if (step <= 8) {
+    if (step <= stepArray[1]) {
       setStep(step++);
     } else {
       setStep(1);
@@ -18,18 +21,25 @@ const ImageModal = ({ imageModalVisible, setImageModalVisible }) => {
     if (step >= 1) {
       setStep(step--);
     } else {
-      setStep(8);
+      setStep(stepArray[1]);
     }
+    console.log(step);
   };
   return (
     <Modal
       animationType="slide"
       transparent={true}
       visible={imageModalVisible}
-      onRequestClose={() => setImageModalVisible(false)}
+      onRequestClose={() => {
+        setImageModalVisible(false);
+        setStep(1);
+      }}
     >
-      <View style={styles.container}>
-        <Image style={styles.img} source={require(`./map/1-2/${step}.jpg`)} />
+      <KeyboardAvoidingView style={styles.container}>
+        <Image
+          style={styles.img}
+          source={require("./map/images/" + step + ".jpg")}
+        />
         <TouchableOpacity
           style={{
             position: "absolute",
@@ -42,12 +52,16 @@ const ImageModal = ({ imageModalVisible, setImageModalVisible }) => {
             justifyContent: "center",
             alignItems: "center",
           }}
-          onPress={() => setImageModalVisible(false)}
+          onPress={() => {
+            setStep(1);
+            setImageModalVisible(false);
+          }}
         >
           <AntDesign name="closesquareo" size={30} color="black" />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={stepHandlePositive}
+          onPressIn={stepHandlePositive}
+          onPressOut={stepHandlePositive}
           style={{
             position: "absolute",
             right: 20,
@@ -59,11 +73,13 @@ const ImageModal = ({ imageModalVisible, setImageModalVisible }) => {
             justifyContent: "center",
             alignItems: "center",
           }}
+          disabled={step === stepArray[1] ? true : false}
         >
           <AntDesign name="caretright" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={stepHandleNegative}
+          onPressIn={stepHandleNegative}
+          onPressOut={stepHandleNegative}
           style={{
             position: "absolute",
             left: 20,
@@ -75,10 +91,11 @@ const ImageModal = ({ imageModalVisible, setImageModalVisible }) => {
             justifyContent: "center",
             alignItems: "center",
           }}
+          disabled={step === 1 ? true : false}
         >
           <AntDesign name="caretleft" size={24} color="black" />
         </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 };
