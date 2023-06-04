@@ -19,12 +19,22 @@ import NavModel from "./src/NavModel";
 import ImageModal from "./src/ImageModal";
 
 export default function App() {
+  // State Managment
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [navModel, setNavModel] = useState(false);
   let [zoom, setZoom] = useState(2);
   const [imageModalVisible, setImageModalVisible] = useState(false);
-  const [stepArray, setStepArray] = useState([1, 16]);
+  const [stepArray, setStepArray] = useState([1, 1]);
+  let [start, setStart] = useState(1);
+  let [end, setEnd] = useState(1);
+  let [step, setStep] = useState(stepArray[0]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 3000);
+    setStepArray([start, end]);
+    setStep(start);
+  }, [start, end]);
 
   const zoonIn = () => {
     if (zoom < 3) {
@@ -41,9 +51,6 @@ export default function App() {
     }
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 3000);
-  }, []);
   return loading ? (
     <Loader />
   ) : (
@@ -78,13 +85,16 @@ export default function App() {
         setImageModalVisible={setImageModalVisible}
         navModel={navModel}
         setNavModel={setNavModel}
-        setStepArray={setStepArray}
+        setStart={setStart}
+        setEnd={setEnd}
       />
       <ImageModal
         imageModalVisible={imageModalVisible}
         setImageModalVisible={setImageModalVisible}
         setLoading={setLoading}
         stepArray={stepArray}
+        step={step}
+        setStep={setStep}
       />
       <View style={{ position: "absolute", left: 12, bottom: 12 }}>
         <TouchableOpacity

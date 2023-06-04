@@ -8,22 +8,26 @@ import {
 import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 
-const ImageModal = ({ imageModalVisible, setImageModalVisible, stepArray }) => {
-  let [step, setStep] = useState(1);
+const ImageModal = ({
+  imageModalVisible,
+  setImageModalVisible,
+  stepArray,
+  step,
+  setStep,
+}) => {
   const stepHandlePositive = () => {
     if (step <= stepArray[1]) {
       setStep(step++);
     } else {
-      setStep(1);
+      setStep(stepArray[0]);
     }
   };
   const stepHandleNegative = () => {
-    if (step >= 1) {
+    if (step >= stepArray[0]) {
       setStep(step--);
     } else {
       setStep(stepArray[1]);
     }
-    console.log(step);
   };
   return (
     <Modal

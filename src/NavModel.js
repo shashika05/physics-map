@@ -1,36 +1,102 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Modal,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
+import { StyleSheet, Text, View, Modal, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SelectList } from "react-native-dropdown-select-list";
 
-import data from "../data";
+// import data from "../data";
+
+const data = [
+  {
+    id: 1,
+    value: "Main Entrance",
+    navigatios: [
+      { value: "PLT-1", imgArray: [1, 16] },
+      { value: "PLT-2", imgArray: [1, 23] },
+      { value: "Main Building Floor-1", imgArray: [1, 29] },
+      { value: "Main Building Floor-2", imgArray: [1, 45] },
+    ],
+  },
+  {
+    id: 2,
+    value: "PLT-1",
+    navigatios: [
+      {
+        value: "PLT-2",
+        imgArray: [16, 23],
+      },
+      {
+        value: "Main Building Floor-1",
+        imgArray: [16, 29],
+      },
+      {
+        value: "Main Building Floor-2",
+        imgArray: [16, 45],
+      },
+    ],
+  },
+  {
+    id: 3,
+    value: "PLT-2",
+    navigatios: [
+      { value: "Main Building Floor-1", imgArray: [23, 29] },
+      { value: "Main Building Floor-2", imgArray: [23, 45] },
+    ],
+  },
+  {
+    id: 4,
+    value: "Main Building Floor-1",
+    navigatios: [{ value: "Main Building Floor-2", imgArray: [29, 45] }],
+  },
+];
 
 const NavModel = ({
   navModel,
   setNavModel,
   setImageModalVisible,
-  setStepArray,
+  setStart,
+  setEnd,
 }) => {
-  const [selected, setSelected] = useState("");
+  const [selected1, setSelected1] = useState("");
+  const [selected2, setSelected2] = useState("");
 
-  const toRoute = () => {
+  const [nav, setNav] = useState(data[0].navigatios);
+
+  const fromHandle = () => {
+    // set start here
+    if (selected1 == "Main Entrance") {
+      setNav(data[0].navigatios);
+      setStart(1);
+    }
+    if (selected1 == "PLT-1") {
+      setNav(data[1].navigatios);
+      setStart(16);
+    }
+    if (selected1 == "PLT-2") {
+      setNav(data[2].navigatios);
+      setStart(23);
+    }
+    if (selected1 == "Main Building Floor-1") {
+      setNav(data[3].navigatios);
+      setStart(29);
+    }
+  };
+
+  const toHandle = () => {
+    // set end here
+
+    if (selected2 == "PLT-1") {
+      setEnd(16);
+    }
+    if (selected2 == "PLT-2") {
+      setEnd(23);
+    }
+    if (selected2 == "Main Building Floor-1") {
+      setEnd(29);
+    }
+    if (selected2 == "Main Building Floor-2") {
+      setEnd(45);
+    }
     setNavModel(false);
-    if (selected == "PLT-1") {
-      setStepArray([1, 16]);
-    }
-    if (selected == "PLT-2") {
-      setStepArray([1, 23]);
-    }
-    if (selected == "Main Building") {
-      setStepArray([1, 28]);
-    }
     setImageModalVisible(true);
   };
 
@@ -60,7 +126,18 @@ const NavModel = ({
             }}
           >
             <Text style={styles.title}>From</Text>
-            <Text style={{ marginTop: 28 }}>Main Entrance</Text>
+            <View style={{ marginTop: 16, zIndex: 10 }}>
+              <SelectList
+                setSelected={(val) => setSelected1(val)}
+                data={data}
+                save="navigatios"
+                search={false}
+                placeholder="Select Location"
+                dropdownStyles={{ backgroundColor: "#e2e2e2" }}
+                onSelect={fromHandle}
+              />
+              <Text>*Select first</Text>
+            </View>
           </View>
           <View
             style={{
@@ -71,13 +148,13 @@ const NavModel = ({
             <Text style={styles.title}>To</Text>
             <View style={{ marginTop: 16, zIndex: 10 }}>
               <SelectList
-                setSelected={(val) => setSelected(val)}
-                data={data}
-                save="location"
+                setSelected={(val) => setSelected2(val)}
+                data={nav}
+                save="imgArray"
                 search={false}
                 placeholder="Select Location"
                 dropdownStyles={{ backgroundColor: "#e2e2e2" }}
-                onSelect={toRoute}
+                onSelect={toHandle}
               />
             </View>
           </View>
